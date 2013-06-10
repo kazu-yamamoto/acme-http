@@ -28,7 +28,7 @@ listenOn portm = do
             setSocketOption sock ReuseAddr 1
             setSocketOption sock NoDelay 1
             bindSocket sock (SockAddrInet (fromIntegral portm) iNADDR_ANY)
-            listen sock (max 1024 maxListenQueue)
+            listen sock (max 2048 maxListenQueue)
             return sock
         )
 
