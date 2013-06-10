@@ -1,11 +1,9 @@
 {-# LANGUAGE DeriveDataTypeable, OverloadedStrings #-}
 module Acme.Request where
 
-import Control.Monad.Trans             (lift, liftIO)
 import Control.Exception.Extensible
 import           Data.ByteString       (ByteString, elemIndex, empty, split, uncons)
 import qualified Data.ByteString       as B
-import qualified Data.ByteString.Char8 as C
 import Data.ByteString.Unsafe          (unsafeDrop, unsafeIndex, unsafeTake)
 import Data.Monoid                     (mappend)
 import Data.Typeable                   (Typeable)

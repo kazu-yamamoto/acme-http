@@ -29,12 +29,12 @@ Library
                      network               >= 2.3 && <2.5,
                      pretty                >= 1.0 && <1.2
 
-  GHC-Options: -O2
+  GHC-Options: -O2 -Wall
 
 Executable pong
   Main-Is: Pong.hs
-  GHC-Options: -threaded -O2 -rtsopts
+  GHC-Options: -threaded -O2 -Wall -rtsopts
 
 Executable http-echo
   Main-Is: Echo.hs
-  GHC-Options: -threaded -O2 -rtsopts
+  GHC-Options: -threaded -O2 -Wall -rtsopts

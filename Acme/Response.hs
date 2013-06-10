@@ -2,7 +2,7 @@
 module Acme.Response where
 
 import Acme.Types               (Response(..))
-import Data.ByteString       (ByteString, concat, append)
+import Data.ByteString       (ByteString, concat)
 import Data.ByteString.Char8 () -- instance IsString ByteString
 import Prelude               hiding (concat)
 
@@ -34,6 +34,7 @@ sendResponse send ByteStringResponse{..} =
 -- FIXME: can the http version always be 1.1 or do we need to match the caller?
 statusLine :: Int -> ByteString
 statusLine 200 = ok_status
+statusLine _   = error "statusLine"
 
 ok_status :: ByteString
 ok_status = "HTTP/1.1 200 OK\r\n"

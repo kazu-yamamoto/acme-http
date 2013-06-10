@@ -3,16 +3,13 @@ module Acme.Serve where
 import Acme.Request
 import Acme.Response
 import Acme.Types
-import Control.Concurrent (killThread, forkIO)
+import Control.Concurrent (forkIO)
 import Control.Exception.Extensible             as E
 import Control.Monad (forever)
-import Control.Monad.Trans
 import Data.ByteString                          (ByteString, empty)
-import Data.ByteString.Char8                    (pack)
 import Network.BSD                              (getProtocolNumber)
 import Network.Socket                           (Socket, SockAddr(..), SocketOption(..), SocketType(Stream), Family(AF_INET), accept, bindSocket, iNADDR_ANY, sClose, listen, maxListenQueue, setSocketOption, socket)
 import Network.Socket.ByteString                (recv, sendAll)
-import System.IO
 
 
 
@@ -58,7 +55,7 @@ requestLoop :: Bool
             -> (ByteString -> IO ())
             -> (Request -> IO Response)
             -> IO ()
-requestLoop secure addr reader writer app =
+requestLoop secure _ reader writer app =
     go empty
     where
       go bs =

@@ -9,11 +9,11 @@ main :: IO ()
 main = serve 8000 pong
 
 pong :: Request -> IO Response
-pong r =
+pong _ =
     return $ PongResponse
 
 pong2 :: Request -> IO Response
-pong2 r =
+pong2 _ =
     return $ ByteStringResponse { rsCode = 200
                                 , rsHeaders = [ ("Content-Length", "4")
                                               , ("Content-Type"  , "text/plain")
