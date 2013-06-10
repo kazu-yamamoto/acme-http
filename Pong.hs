@@ -4,9 +4,15 @@ module Main where
 import Acme.Serve
 import Acme.Types
 import Data.ByteString.Char8 ()
+import System.Environment
 
 main :: IO ()
-main = serve 8000 pong
+main = do
+    as <- getArgs
+    let workers = case as of
+            []  -> 0
+            a:_ -> read a
+    serve workers 8000 pong
 
 pong :: Request -> IO Response
 pong _ =

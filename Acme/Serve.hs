@@ -3,9 +3,10 @@ module Acme.Serve where
 import Acme.Request
 import Acme.Response
 import Acme.Types
-import Control.Concurrent (forkIO)
+import Acme.Signal
+import Control.Concurrent (forkIO, threadDelay)
 import Control.Exception.Extensible             as E
-import Control.Monad (forever)
+import Control.Monad (forever, replicateM)
 import Data.ByteString                          (ByteString, empty)
 import Network.BSD                              (getProtocolNumber)
 import Network.Socket                           (Socket, SockAddr(..), SocketOption(..), SocketType(Stream), Family(AF_INET), accept, bindSocket, iNADDR_ANY, sClose, listen, maxListenQueue, setSocketOption, socket)
@@ -30,12 +31,18 @@ listenOn portm = do
         )
 
 -- | listen on a port and handle 'Requests'
-serve ::  Int                                -- ^ port to listen on
+serve :: Int                       -- ^ num of workers
+      -> Int                       -- ^ port to listen on
       -> (Request -> IO Response)  -- ^ request handler
       -> IO ()
-serve port app =
-    bracket (listenOn port) sClose $ \listenSocket ->
-        serveSocket listenSocket app
+serve workers port app =
+    bracket (listenOn port) sClose $ \listenSocket -> do
+        pids <- replicateM workers (forkProcess $ serveSocket listenSocket app)
+        ignoreSigChild
+        setHandler pids
+        mainLoop
+  where
+    mainLoop = threadDelay 5000000 >> mainLoop
 
 -- | handle 'Requests' from an already listening 'Socket'
 serveSocket :: Socket                             -- ^ 'Socket' in listen mode

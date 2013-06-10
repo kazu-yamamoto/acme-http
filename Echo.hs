@@ -5,9 +5,15 @@ import Acme.Serve
 import Acme.Types
 import Data.ByteString.Char8 (pack,length)
 import Prelude hiding (length)
+import System.Environment
 
 main :: IO ()
-main = serve 8000 echo
+main = do
+    as <- getArgs
+    let workers = case as of
+            []  -> 0
+            a:_ -> read a
+    serve workers 8000 echo
 
 echo :: Request -> IO Response
 echo r =

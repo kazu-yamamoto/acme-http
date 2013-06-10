@@ -21,13 +21,15 @@ Library
                      Acme.Request
                      Acme.Serve
                      Acme.Types
+                     Acme.Signal
 
   Build-depends:     base                   < 5,
                      bytestring            >= 0.9 && < 0.11,
                      extensible-exceptions == 0.1.*,
                      mtl                   >= 2.0 && < 2.2,
                      network               >= 2.3 && <2.5,
-                     pretty                >= 1.0 && <1.2
+                     pretty                >= 1.0 && <1.2,
+                     unix
 
   GHC-Options: -O2 -Wall
 
